@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+
+    <style>
+        body{
+            transition: all 2s;
+        }
+        .h {
+
+            position: absolute;
+
+            top: 10px;
+
+            left: 100px;
+
+            width: 100px;
+
+        }
+
+        .cot {
+            position: absolute;
+            top: 100px;
+            left: 1300px;
+            font-size: 50px;
+        }
+        .scor {
+            position: absolute;
+            top: 200px;
+            left: 1300px;
+            font-size: 50px;
+        }
+        .h1 {
+
+            left: 100px;
+
+        }
+
+        .h2 {
+
+            left: 200px;
+
+        }
+
+        .h3 {
+
+            left: 300px;
+
+        }
+
+        .car {
+
+            width: 250px;
+
+            position: absolute;
+
+        }
+
+        .c3 {
+
+            left: -1000px;
+            animation-name: t;
+            animation-delay: 7s;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+        }
+
+        .c4 {
+
+            left: -1000px;
+            animation-name: t;
+            animation-delay: 3s;
+            animation-duration: 10s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+
+        }
+
+        .c5 {
+
+            left: -1000px;
+            animation-name: t;
+            animation-delay: 10s;
+            animation-duration: 12s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+
+        }
+
+        .c2 {
+
+            left: -1000px;
+            animation-name: t;
+            animation-delay: 5s;
+            animation-duration: 14s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+
+
+        }
+
+        @keyframes t {
+            from {
+                left: -1000px
+            }
+
+            to {
+                left: 100vw
+            }
+        }
+
+        .b {
+            top: 200px;
+            width: 100px;
+            position: absolute;
+            left: 1000px;
+            /* animation: t2 1s infinite linear;  */
+        }
+
+        .w2 {
+            animation: t2 1s linear;
+        }
+
+        @keyframes t2 {
+            from {
+                top: 200px
+            }
+
+            50% {
+                top: 50px
+            }
+
+            to {
+                top: 200px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="heartat.gif" class="h h3">
+        <img src="heartat.gif" class="h h2">
+        <img src="heartat.gif" class="h h1">
+        <span class="cot">
+        </span>
+        <span class='scor'>
+        </span>
+    </header>
+    <main
+        style="border: 1px solid black; margin: 0px auto;margin-top: 100px; padding: 200px;padding-top: 300px; box-sizing: border-box; position: relative;width: 98vw; height: 100px; overflow: hidden;">
+        <img src="manan.gif" class="b">
+        <img src="car1.gif" class="c5 car">
+        <img src="car2.gif" class="c4 car">
+        <img src="car3.gif" class="c3 car">
+        <img src="car4.gif" class="c2 car">
+    </main>
+    <script>
+        let score=0
+        var colors=["red","blue","green","purple","orange","gold","silver","brown","lime","indigo"]
+        setInterval('document.querySelector("body").style.backgroundColor=colors[Math.round(Math.random()*10)]', 3000)
+        let smb = 0
+        setInterval("ball()", 1000)
+
+        function ball() {
+            smb++
+            document.querySelector(".cot").innerHTML = "Счёт: " + smb
+        }
+        let lie = true
+        document.querySelector(".b").addEventListener("webkitAnimationEnd", myEndFunction);
+        document.querySelector(".b").addEventListener("animationend", myEndFunction)
+
+        function myEndFunction() {
+            document.querySelector(".b").classList.remove("w2")
+        }
+        document.onkeydown = function iziz(iz) {
+            if (iz.keyCode == '32' && lie) {
+                document.querySelector(".b").classList.add("w2")
+            }
+        };
+        setInterval("chek()", 65)
+        let allCar = new Array()
+        let nh = 0
+        allCar = document.querySelectorAll(".car")
+        //  console.log(allCar)
+        function chek() {
+            // console.log(getComputedStyle(document.querySelectorAll(".car")[0], null).left)
+            // console.log(allCar)
+            for (let ncar = 0; ncar < allCar.length; ncar++) {
+                // console.log(allCar[ncar])
+                qf = parseInt(getComputedStyle(allCar[ncar], null).left)
+                man = getComputedStyle(document.querySelector(".b"), null).top
+                if (parseInt(qf) >= 890 && parseInt(man) == 200 && qf < 910) {
+                    document.querySelector(".b").style.transform = "rotate(90deg)"
+                    document.querySelector(".b").style.top = "300px"
+                    console.log(document.querySelectorAll(".h"))
+                    if (nh < 4) document.querySelectorAll(".h")[nh].style.opacity = "0"
+                    nh++
+                    console.log(nh)
+                    if (nh > 2) {
+                        alert("Game over.");
+                        if (score<=smb) {score=smb; document.querySelector(".scor").innerHTML = "Рекорд: " + score}
+                        nh = 0
+                        smb = 0
+                        document.querySelectorAll(".h")[0].style.opacity = "1"
+                        document.querySelectorAll(".h")[1].style.opacity = "1"
+                        document.querySelectorAll(".h")[2].style.opacity = "1"
+                        allCar[0].classList.remove("c5")
+                        allCar[1].classList.remove("c4")
+                        allCar[2].classList.remove("c3")
+                        allCar[3].classList.remove("c2")
+                        allCar[0].style.left = '-1000px'
+                        allCar[1].style.left = '-1000px'
+                        allCar[2].style.left = '-1000px'
+                        allCar[3].style.left = '-1000px'
+
+                        setTimeout(
+                            'allCar[2].classList.add("c3");allCar[3].classList.add("c2");allCar[0].classList.add("c5");allCar[1].classList.add("c4")',
+                            1000)
+
+                    }
+                    lie = false
+                    setTimeout(
+                        'document.querySelector(".b").style.transform = "rotate(0deg)"; lie = true; document.querySelector(".b").style.top = "200px"',
+                        100)
+                }
+                man = parseInt(man)
+                if (parseInt(qf) >= 850 && man >= 130 && man <= 140 && qf < 1000) {
+                    console.log("man")
+                    document.querySelector(".b").style.animationPlayState = "paused"
+                    setTimeout('document.querySelector(".b").style.animationPlayState="running"', 510)
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
